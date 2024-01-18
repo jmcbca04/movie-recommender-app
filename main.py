@@ -4,11 +4,8 @@ from fastapi.templating import Jinja2Templates
 from fastapi.middleware.wsgi import WSGIMiddleware
 import os
 from dotenv import load_dotenv
-from main import app
 import httpx
 import pandas as pd
-
-application = WSGIMiddleware(app)
 
 # Load environment variables
 load_dotenv()  # take environment variables from .env.
@@ -74,3 +71,6 @@ def get_user_recommendations(user_id: int):
 def get_movie_recommendations(movie_id: int):
     similar_movies = tmdb_client.get_movie(movie_id).get('similar', {}).get('results', [])
     return {"recommendations": [movie['title'] for movie in similar_movies]}
+
+# Create WSGI application for deployment
+application = WSGIMiddleware(app)
