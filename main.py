@@ -1,10 +1,14 @@
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.wsgi import WSGIMiddleware
 import os
 from dotenv import load_dotenv
+from main import app
 import httpx
 import pandas as pd
+
+application = WSGIMiddleware(app)
 
 # Load environment variables
 load_dotenv()  # take environment variables from .env.
